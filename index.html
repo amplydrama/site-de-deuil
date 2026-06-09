@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deuil — Djoudjieu Jeannette épse Tapondjou</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-title">✦ Deuil de Maman</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" id="tab-dashboard">Tableau de bord</div>
+    <div class="nav-tab" id="tab-finances">Finances</div>
+    <div class="nav-tab" id="tab-participants">Participants</div>
+    <div class="nav-tab" id="tab-formulaire">Formulaire</div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ========== DASHBOARD ========== -->
+  <div class="page active" id="page-dashboard">
+    <div class="page-header">
+      <h1>En mémoire de Maman</h1>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--or-clair);font-style:italic;margin-top:0.3rem;">Djoudjieu Jeannette épouse Tapondjou</p>
+      <p id="dash-date" class="text-gris"></p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Entrées</div>
+        <div class="stat-value montant-pos" id="stat-entrees">0 FCFA</div>
+        <div class="stat-sub">Contributions reçues</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Dépenses</div>
+        <div class="stat-value montant-neg" id="stat-depenses">0 FCFA</div>
+        <div class="stat-sub">Charges engagées</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Solde</div>
+        <div class="stat-value" id="stat-solde">0 FCFA</div>
+        <div class="stat-sub">Balance actuelle</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Participants</div>
+        <div class="stat-value text-or" id="stat-participants">0</div>
+        <div class="stat-sub">Inscrits via formulaire</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+      <div class="card">
+        <div class="card-title">Dernières transactions</div>
+        <div id="dash-transactions"><div class="empty">Aucune transaction</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Répartition participants</div>
+        <div id="dash-repartition" style="font-size:0.9rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FINANCES ========== -->
+  <div class="page" id="page-finances">
+    <div class="page-header">
+      <h1>Finances</h1>
+      <p>Suivi des entrées et dépenses du deuil</p>
+    </div>
+
+    <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <button class="btn btn-or" id="btn-new-transaction">+ Nouvelle transaction</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Toutes les transactions</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Type</th><th>Catégorie</th><th>Description</th><th>Montant</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="finance-table"><tr><td colspan="6" class="empty">Aucune transaction enregistrée</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PARTICIPANTS ========== -->
+  <div class="page" id="page-participants">
+    <div class="page-header">
+      <h1>Participants</h1>
+      <p>Personnes qui assistent au deuil</p>
+    </div>
+
+    <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <button class="btn btn-or" id="btn-new-participant">+ Ajouter manuellement</button>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nom</th><th>Contact</th><th>Présence</th><th>Transport village</th><th>Contribution</th><th>Note</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="participants-table"><tr><td colspan="7" class="empty">Aucun participant enregistré</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FORMULAIRE ========== -->
+  <div class="page" id="page-formulaire">
+    <div class="page-header">
+      <h1>Formulaire de participation</h1>
+      <p>Générer et partager le lien de participation</p>
+    </div>
+
+    <div class="share-box">
+      <h3>🔗 Lien à partager</h3>
+      <p style="color:var(--gris);font-size:0.83rem;margin-bottom:1rem;">
+        Partagez ce lien par WhatsApp, SMS ou email. Les personnes pourront indiquer où elles peuvent vous assister.
+      </p>
+      <div class="link-row">
+        <input type="text" class="link-input" id="share-link" readonly value="">
+        <button class="btn btn-or btn-sm" id="btn-copy-link">Copier</button>
+        <button class="btn btn-outline btn-sm" id="btn-share-whatsapp">WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Configurer le formulaire</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nom du défunt</label>
+          <input type="text" id="cfg-nom" placeholder="Ex: Papa Jean-Baptiste">
+        </div>
+        <div class="form-group">
+          <label>Date du deuil</label>
+          <input type="date" id="cfg-date">
+        </div>
+        <div class="form-group">
+          <label>Lieu — Ville</label>
+          <input type="text" id="cfg-ville" placeholder="Ex: Douala, Yaoundé...">
+        </div>
+        <div class="form-group">
+          <label>Lieu — Village</label>
+          <input type="text" id="cfg-village" placeholder="Ex: Bafoussam, Ébolowa...">
+        </div>
+        <div class="form-group full">
+          <label>Message d'invitation (optionnel)</label>
+          <textarea id="cfg-message" rows="2" placeholder="Ex: La famille vous invite à nous rejoindre..."></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-or" id="btn-save-config">Enregistrer la configuration</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Aperçu du formulaire public</div>
+      <div id="form-preview-wrap">
+        <div class="public-form-preview" id="public-form-preview">
+          <h2>🕊 Deuil de <span id="pv-nom">Djoudjieu Jeannette épse Tapondjou</span></h2>
+          <p id="pv-msg">Votre présence est une grande consolation pour la famille.</p>
+          <div style="text-align: center; margin-bottom: 1rem;">
+            <a href="https://wa.me/237695819636" target="_blank" style="display:inline-block; background:#25D366; color:white; padding:0.5rem 1rem; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:500; font-family: 'Montserrat', sans-serif;">💬 Contacter Laure (WhatsApp)</a>
+          </div>
+          <hr style="border-color:#eee;margin:1rem 0;">
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Votre nom complet *</label>
+            <input type="text" placeholder="Jean Dupont" disabled>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Téléphone / WhatsApp *</label>
+            <input type="text" placeholder="+237 6XX XXX XXX" disabled>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Où pouvez-vous nous assister ? *</label>
+            <select disabled>
+              <option>-- Choisir --</option>
+              <option>À la veillée (ville)</option>
+              <option>À la célébration au village</option>
+              <option>Les deux (ville + village)</option>
+              <option>À distance (soutien moral/financier)</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Transport pour aller au village *</label>
+            <select disabled>
+              <option>-- Choisir --</option>
+              <option>🚌 Je prends le bus organisé depuis Douala</option>
+              <option>🚗 Je voyage par mes propres moyens</option>
+              <option>⛔ Je ne vais pas au village</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Contribution financière prévue (FCFA)</label>
+            <input type="number" placeholder="Laisser vide si non concerné" disabled>
+          </div>
+          <div class="form-group" style="margin-bottom:1.5rem;">
+            <label>Message pour la famille</label>
+            <textarea rows="2" placeholder="Vos condoléances ou disponibilités..." disabled></textarea>
+          </div>
+          <button class="btn btn-or" id="btn-preview-form" style="width:100%;">Envoyer ma réponse</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Réponses reçues (<span id="reponses-count">0</span>)</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Nom</th><th>Contact</th><th>Présence</th><th>Transport</th><th>Contribution prévue</th><th>Message</th><th>Action</th></tr>
+          </thead>
+          <tbody id="reponses-table"><tr><td colspan="7" class="empty">Aucune réponse reçue</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== MODAL TRANSACTION ========== -->
+<div class="modal-overlay" id="modal-transaction">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Nouvelle transaction</div>
+      <button class="modal-close" id="close-modal-transaction">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Type *</label>
+        <select id="t-type">
+          <option value="entree">Entrée (contribution reçue)</option>
+          <option value="depense">Dépense</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Montant (FCFA) *</label>
+        <input type="number" id="t-montant" placeholder="Ex: 50000">
+      </div>
+      <div class="form-group">
+        <label>Catégorie</label>
+        <select id="t-categorie">
+          <optgroup label="Entrées">
+            <option value="contribution-famille">Contribution famille</option>
+            <option value="contribution-ami">Contribution amis/collègues</option>
+            <option value="collecte">Collecte/Tontine</option>
+          </optgroup>
+          <optgroup label="Dépenses">
+            <option value="cercueil">Cercueil / Pompes funèbres</option>
+            <option value="transport">Transport / Déplacement</option>
+            <option value="nourriture">Nourriture / Restauration</option>
+            <option value="boisson">Boissons</option>
+            <option value="location">Location salle / Chaises</option>
+            <option value="habit-deuil">Habits de deuil</option>
+            <option value="musique">Musique / Orchestre</option>
+            <option value="ceremonie">Cérémonie religieuse</option>
+            <option value="impression">Impression / Faire-part</option>
+            <option value="autre">Autre</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="t-date">
+      </div>
+      <div class="form-group full">
+        <label>Description</label>
+        <input type="text" id="t-description" placeholder="Ex: Don de l'oncle Paul, Achat chaises...">
+      </div>
+      <div class="form-group">
+        <label>Donateur / Bénéficiaire</label>
+        <input type="text" id="t-personne" placeholder="Nom de la personne">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-or" id="btn-save-transaction">Enregistrer</button>
+      <button class="btn btn-outline" id="cancel-modal-transaction">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL PARTICIPANT ========== -->
+<div class="modal-overlay" id="modal-participant">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Ajouter un participant</div>
+      <button class="modal-close" id="close-modal-participant">×</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Nom complet *</label>
+        <input type="text" id="p-nom" placeholder="Jean Dupont">
+      </div>
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="text" id="p-tel" placeholder="+237 6XX...">
+      </div>
+      <div class="form-group">
+        <label>Présence prévue</label>
+        <select id="p-presence">
+          <option value="ville">Veillée en ville</option>
+          <option value="village">Célébration au village</option>
+          <option value="partout">Ville + Village</option>
+          <option value="distance">À distance</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Transport pour le village</label>
+        <select id="p-transport">
+          <option value="bus">🚌 Bus organisé (depuis Douala)</option>
+          <option value="propre">🚗 Moyen personnel</option>
+          <option value="non">⛔ Ne va pas au village</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Contribution prévue (FCFA)</label>
+        <input type="number" id="p-contribution" placeholder="0">
+      </div>
+      <div class="form-group full">
+        <label>Note</label>
+        <textarea id="p-note" rows="2" placeholder="Informations supplémentaires..."></textarea>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-or" id="btn-save-participant">Ajouter</button>
+      <button class="btn btn-outline" id="cancel-modal-participant">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL FORMULAIRE PUBLIC ========== -->
+<div class="modal-overlay" id="modal-public-form">
+  <div class="modal" style="max-width:580px;">
+    <div class="modal-header">
+      <div class="modal-title" style="color:var(--noir);">Formulaire de participation</div>
+      <button class="modal-close" id="close-modal-public" style="color:#333;">×</button>
+    </div>
+    <div class="public-form-preview" style="padding:0;">
+      <h2 style="padding:1rem 0 0.3rem;">🕊 Deuil de <span id="mf-nom">Djoudjieu Jeannette épse Tapondjou</span></h2>
+      <p id="mf-msg" style="padding:0 0 1rem;">Votre présence est une grande consolation.</p>
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <a href="https://wa.me/237695819636" target="_blank" style="display:inline-block; background:#25D366; color:white; padding:0.5rem 1rem; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:500; font-family: 'Montserrat', sans-serif;">💬 Contacter Laure (WhatsApp)</a>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Votre nom complet *</label>
+        <input type="text" id="mf-pnom" placeholder="Jean Dupont">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Téléphone / WhatsApp *</label>
+        <input type="text" id="mf-tel" placeholder="+237 6XX XXX XXX">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Où pouvez-vous nous assister ? *</label>
+        <select id="mf-presence">
+          <option value="">-- Choisir --</option>
+          <option value="ville">À la veillée (ville)</option>
+          <option value="village">À la célébration au village</option>
+          <option value="partout">Les deux (ville + village)</option>
+          <option value="distance">À distance (soutien moral/financier)</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Transport pour aller au village *</label>
+        <select id="mf-transport">
+          <option value="">-- Choisir --</option>
+          <option value="bus">🚌 Je prends le bus organisé depuis Douala</option>
+          <option value="propre">🚗 Je voyage par mes propres moyens</option>
+          <option value="non">⛔ Je ne vais pas au village</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem;">
+        <label>Contribution financière prévue (FCFA)</label>
+        <input type="number" id="mf-contribution" placeholder="Laisser vide si non concerné">
+      </div>
+      <div class="form-group" style="margin-bottom:1.5rem;">
+        <label>Message pour la famille</label>
+        <textarea id="mf-note" rows="2" placeholder="Condoléances, disponibilités..."></textarea>
+      </div>
+      <button class="btn btn-or" id="btn-submit-public-form" style="width:100%;">Envoyer ma réponse</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Action effectuée</div>
+
+<script type="module" src="/main.js"></script>
+</body>
+</html>
