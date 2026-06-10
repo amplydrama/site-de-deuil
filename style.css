@@ -251,17 +251,36 @@ tr:hover td { background: rgba(255,255,255,0.03); }
 }
 #toast.show { opacity: 1; }
 
-.divider { border: none; border-top: 1px solid rgba(201,168,76,0.15); margin: 1.5rem 0; }
+.divider { border: none; border-top: 1px solid rgba(201, 168, 76, 0.15); margin: 1.5rem 0; }
 .text-or { color: var(--or); }
 .text-gris { color: var(--gris); }
 .mt-1 { margin-top: 1rem; }
 .montant-pos { color: #7fc49a; }
 .montant-neg { color: #c97070; }
 
-@media (max-width: 600px) {
+/* CHARTS */
+.charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+.chart-card { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(201, 168, 76, 0.15); border-radius: 4px; padding: 1.5rem; }
+.chart-card canvas { max-height: 260px; }
+
+/* RAPPORT */
+.rapport-section { margin-bottom: 2rem; }
+.rapport-section h3 { font-family: 'Cormorant Garamond', serif; color: var(--or); font-size: 1.2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(201, 168, 76, 0.2); }
+.rapport-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 0.88rem; }
+.rapport-total { display: flex; justify-content: space-between; padding: 0.8rem 0; font-weight: 600; font-size: 1rem; color: var(--or); }
+.info-box { background: rgba(201, 168, 76, 0.06); border: 1px solid rgba(201, 168, 76, 0.2); border-radius: 4px; padding: 1rem 1.2rem; margin-bottom: 1rem; font-size: 0.85rem; color: var(--or-clair); }
+
+/* VISITOR LAYOUT & LOCKS */
+.visitor-container { max-width: 600px; margin: 2rem auto; padding: 0 1rem; }
+.visitor-footer { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(201, 168, 76, 0.15); }
+.admin-lock-link { color: var(--gris); font-size: 0.75rem; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+.admin-lock-link:hover { color: var(--or); }
+
+@media (max-width: 700px) {
   .form-grid { grid-template-columns: 1fr; }
   .form-grid.cols-3 { grid-template-columns: 1fr; }
+  .charts-grid { grid-template-columns: 1fr; }
   nav { padding: 0 0.8rem; }
-  .nav-tab { padding: 0 0.6rem; font-size: 0.7rem; }
-  .nav-title { font-size: 1.1rem; }
+  .nav-tab { padding: 0 0.5rem; font-size: 0.65rem; }
+  .nav-title { font-size: 1rem; }
 }

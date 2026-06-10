@@ -6,16 +6,19 @@
 <title>Deuil — Djoudjieu Jeannette épse Tapondjou</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
 
-<nav>
+<nav style="display: none;">
   <div class="nav-title">✦ Deuil de Maman</div>
   <div class="nav-tabs">
     <div class="nav-tab active" id="tab-dashboard">Tableau de bord</div>
     <div class="nav-tab" id="tab-finances">Finances</div>
     <div class="nav-tab" id="tab-participants">Participants</div>
     <div class="nav-tab" id="tab-formulaire">Formulaire</div>
+    <div class="nav-tab" id="tab-rapports">Rapports</div>
+    <div class="nav-tab" id="tab-logout" style="color: var(--rouge-deuil); font-weight: 600;">Déconnexion</div>
   </div>
 </nav>
 
@@ -48,7 +51,24 @@
       <div class="stat-card">
         <div class="stat-label">Participants</div>
         <div class="stat-value text-or" id="stat-participants">0</div>
-        <div class="stat-sub">Inscrits via formulaire</div>
+        <div class="stat-sub">Inscrits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">🚌 Bus organisé</div>
+        <div class="stat-value text-or" id="stat-bus">0</div>
+        <div class="stat-sub">Voyageurs bus</div>
+      </div>
+    </div>
+
+    <!-- GRAPHIQUES DASHBOARD -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="card-title">Entrées vs Dépenses</div>
+        <canvas id="chart-balance"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="card-title">Répartition des dépenses</div>
+        <canvas id="chart-depenses"></canvas>
       </div>
     </div>
 
@@ -153,6 +173,10 @@
           <label>Lieu — Village</label>
           <input type="text" id="cfg-village" placeholder="Ex: Bafoussam, Ébolowa...">
         </div>
+        <div class="form-group">
+          <label>Code d'accès Admin (Passcode)</label>
+          <input type="password" id="cfg-passcode" placeholder="Entrez un nouveau code pour modifier">
+        </div>
         <div class="form-group full">
           <label>Message d'invitation (optionnel)</label>
           <textarea id="cfg-message" rows="2" placeholder="Ex: La famille vous invite à nous rejoindre..."></textarea>
@@ -223,6 +247,105 @@
           <tbody id="reponses-table"><tr><td colspan="7" class="empty">Aucune réponse reçue</td></tr></tbody>
         </table>
       </div>
+    </div>
+  </div>
+
+  <!-- ========== PAGE VISITOR (PUBLIC FORM) ========== -->
+  <div class="page active" id="page-visitor">
+    <div class="visitor-container">
+      <div class="public-form-preview" style="box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(201,168,76,0.2); background: var(--blanc); color: var(--noir);">
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;text-align:center;color:var(--noir);margin-bottom:0.3rem;">🕊 Deuil de <span class="lbl-cfg-nom">Djoudjieu Jeannette épse Tapondjou</span></h2>
+        <p class="lbl-cfg-message" style="text-align:center;color:#666;font-size:0.9rem;margin-bottom:1rem;">Votre présence est une grande consolation pour la famille.</p>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <a href="https://wa.me/237695819636" target="_blank" style="display:inline-block; background:#25D366; color:white; padding:0.5rem 1rem; border-radius:20px; text-decoration:none; font-size:0.85rem; font-weight:500; font-family: 'Montserrat', sans-serif;">💬 Contacter Laure (WhatsApp)</a>
+        </div>
+        <hr style="border-color:#eee;margin:1rem 0;">
+        
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="color:#333;">Votre nom complet *</label>
+          <input type="text" id="vf-pnom" placeholder="Jean Dupont" style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="color:#333;">Téléphone / WhatsApp *</label>
+          <input type="text" id="vf-tel" placeholder="+237 6XX XXX XXX" style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="color:#333;">Où pouvez-vous nous assister ? *</label>
+          <select id="vf-presence" style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;">
+            <option value="">-- Choisir --</option>
+            <option value="ville">À la veillée (ville)</option>
+            <option value="village">À la célébration au village</option>
+            <option value="partout">Les deux (ville + village)</option>
+            <option value="distance">À distance (soutien moral/financier)</option>
+          </select>
+        </div>
+        
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="color:#333;">Transport pour aller au village *</label>
+          <select id="vf-transport" style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;">
+            <option value="">-- Choisir --</option>
+            <option value="bus">🚌 Bus organisé depuis Douala (16 500 FCFA A/R)</option>
+            <option value="propre">🚗 Moyen personnel</option>
+            <option value="non">⛔ Je ne vais pas au village</option>
+          </select>
+        </div>
+        
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label style="color:#333;">Contribution financière prévue (FCFA)</label>
+          <input type="number" id="vf-contribution" placeholder="Laisser vide si non concerné" style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label style="color:#333;">Message pour la famille</label>
+          <textarea id="vf-note" rows="2" placeholder="Vos condoléances ou disponibilités..." style="background:#f9f9f9; color:var(--noir); border:1px solid #ddd;"></textarea>
+        </div>
+        
+        <button class="btn btn-or" id="btn-submit-visitor-form" style="width:100%;">Envoyer ma réponse</button>
+      </div>
+      
+      <div class="visitor-footer">
+        <a class="admin-lock-link" id="link-admin-login">🔑 Accès Administrateur</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== RAPPORTS ========== -->
+  <div class="page" id="page-rapports">
+    <div class="page-header">
+      <h1>Rapports & Graphiques</h1>
+      <p>Visualisation et export des données</p>
+    </div>
+    
+    <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+      <button class="btn btn-or" id="btn-generate-rapport">📊 Générer le rapport</button>
+      <button class="btn btn-green" id="btn-download-pdf">⬇️ Télécharger PDF</button>
+      <button class="btn btn-outline" id="btn-export-csv">📄 Exporter CSV</button>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="card-title">Évolution financière</div>
+        <canvas id="chart-evolution"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="card-title">Répartition des dépenses par catégorie</div>
+        <canvas id="chart-categories"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="card-title">Présence des participants</div>
+        <canvas id="chart-presence"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="card-title">Mode de transport village</div>
+        <canvas id="chart-transport"></canvas>
+      </div>
+    </div>
+
+    <div id="rapport-content" class="card">
+      <div class="card-title">Rapport détaillé</div>
+      <div id="rapport-body"><div class="empty">Cliquez sur "Générer le rapport" pour afficher le résumé complet.</div></div>
     </div>
   </div>
 
@@ -387,6 +510,23 @@
         <textarea id="mf-note" rows="2" placeholder="Condoléances, disponibilités..."></textarea>
       </div>
       <button class="btn btn-or" id="btn-submit-public-form" style="width:100%;">Envoyer ma réponse</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MODAL ADMIN ACCESS ========== -->
+<div class="modal-overlay" id="modal-admin-login">
+  <div class="modal" style="max-width:400px; text-align: center;">
+    <div class="modal-header">
+      <div class="modal-title">Espace Administrateur</div>
+      <button class="modal-close" id="close-modal-admin-login">×</button>
+    </div>
+    <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;">
+      <label style="color:var(--gris);">Code d'accès *</label>
+      <input type="password" id="admin-passcode" placeholder="Entrez le code d'accès" style="text-align: center; font-size: 1.2rem; letter-spacing: 0.15em;">
+    </div>
+    <div class="actions" style="justify-content: center; margin-top: 1.5rem;">
+      <button class="btn btn-or" id="btn-submit-admin-login">Se connecter</button>
     </div>
   </div>
 </div>

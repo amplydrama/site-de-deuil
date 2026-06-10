@@ -1,16 +1,16 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// Configuration Firebase fournie
+// Configuration Firebase chargée dynamiquement depuis les variables d'environnement
 const firebaseConfig = {
-  apiKey: "AIzaSyBMvLtHjKUT29g3C5XRE9LM7oMYcr86CsY",
-  authDomain: "deuil-12369.firebaseapp.com",
-  databaseURL: "https://deuil-12369-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "deuil-12369",
-  storageBucket: "deuil-12369.firebasestorage.app",
-  messagingSenderId: "1007706187993",
-  appId: "1:1007706187993:web:24a6fff9b0b6cbe5f136c8",
-  measurementId: "G-L15WM3BN4N"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
