@@ -560,7 +560,7 @@ document.getElementById('btn-submit-public-form').onclick = async () => {
     document.getElementById('mf-transport').value = '';
   } catch(e) {
     console.error(e);
-    alert('Erreur lors de l\'envoi');
+    alert(`Erreur lors de l'envoi : ${e?.message || e}`);
   }
 };
 
@@ -590,7 +590,7 @@ document.getElementById('btn-submit-visitor-form').onclick = async () => {
     document.getElementById('vf-transport').value = '';
   } catch(e) {
     console.error(e);
-    alert('Erreur lors de l\'envoi');
+    alert(`Erreur lors de l'envoi : ${e?.message || e}`);
   } finally {
     const btn = document.getElementById('btn-submit-visitor-form');
     btn.disabled = false;
